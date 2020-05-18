@@ -1,0 +1,76 @@
+html, body {
+    height: 100%;
+    margin: 0px;
+}
+
+.container {
+    height: 83%;
+    width: 100%;
+}
+
+/*s Class he for header*/
+.he {
+    padding: 5px;
+    text-align: center;
+    background-color: aquamarine;
+}
+
+.rect {
+    float: left;
+    height: 90px;
+    position: relative;
+    width: 100%;
+    background-color: aquamarine;
+    text-align: center;
+}
+
+path {
+    stroke-width: 2;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+svg {
+    font: 10px sans-serif;
+}
+
+.background path {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+}
+
+.foreground path {
+    fill: none;
+    stroke: steelblue;
+}
+
+.brush .extent {
+    fill-opacity: .3;
+    stroke: #fff;
+    shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    cursor: move;
+}
+
+/* selected brushing dimension */
+g.dimension.selected .axis path.domain {
+    stroke: red;
+    stroke-width: 2px;
+}
