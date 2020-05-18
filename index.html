@@ -4,9 +4,6 @@
     <meta charset="utf-8"/>
     <title> CSE 523 Augmenting Data with Textual Stories</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="js/map.js"></script>
-    <script src="js/histogram.js"></script>
-    <script src="js/parallel.js"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
@@ -14,9 +11,13 @@
     <link rel="stylesheet" href="css/containers.css">
 </head>
 
-<body onload="dashboard()">
+<body >
 
 <header>
+    <script src="js/init.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/histogram.js"></script>
+    <script src="js/parallel.js"></script>
     <div class="he">
         <h1>Happiness Index</h1>
     </div>
@@ -27,11 +28,7 @@
 <div class="svgLeft2" id="parallel"></div>
 
 <script>
-    function dashboard() {
-        create_parallel();
-        createHistogram();
-        create_map();
-    }
+
 </script>
 
 </body>
