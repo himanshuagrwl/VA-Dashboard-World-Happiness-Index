@@ -4,11 +4,11 @@ function createHistogram() {
             return d.Score;
         })
         let noBins = 30
-        var ftrFreq = Array.apply(null, Array(noBins+1)).map(Number.prototype.valueOf, 0);
+        var ftrFreq = Array.apply(null, Array(noBins + 1)).map(Number.prototype.valueOf, 0);
 
         var margin = {top: 60, right: 60, bottom: 150, left: 60};
-        var width = 500 - margin.left - margin.right;
-        var height = 400 - margin.top - margin.bottom;
+        var width = 800 - margin.left - margin.right;
+        var height = 600 - margin.top - margin.bottom;
 
         var binValues = [];
 
@@ -27,11 +27,10 @@ function createHistogram() {
         }
         var svg = d3.select("#histogram")
             .append("svg")
-            .attr("width", width + margin.left + margin.right )
+            .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-
 
 
         var graph = svg.append('g')
@@ -52,7 +51,6 @@ function createHistogram() {
             .domain(binValues)
             .range([0, width])
             .padding(0.1);
-
 
 
         graph.selectAll("rect")
@@ -97,7 +95,7 @@ function createHistogram() {
 
         graph.append("g")
             .append("text")
-            .attr("y", height*2)
+            .attr("y", height * 2)
             .attr("x", width / 2)
             .attr("dy", "-5.1em")
             .attr("text-anchor", "middle")
