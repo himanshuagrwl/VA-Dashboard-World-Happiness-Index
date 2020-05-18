@@ -1,11 +1,13 @@
 function create_parallel() {
-
+    console.log("hi")
 // set the dimensions and margins of the graph
     var margin = {top: 30, right: 10, bottom: 10, left: 0},
         width = 700 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
+
+    console.log("hi")
     var svg = d3.select("#parallel")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -14,18 +16,23 @@ function create_parallel() {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
+    var color = d3.scaleThreshold()
+        .domain([3, 5, 7])
+        .range(['#fbb4b9', '#f768a1', '#c51b8a', '#7a0177'])
+    var y = {};
+    x = d3.scalePoint()
+        .range([0, width])
+        .padding(1)
 // Parse the Data
-    d3.csv("dataset/2019.csv", function (data) {
-        var color = d3.scaleThreshold()
-            .domain([3, 5, 7])
-            .range(['#fbb4b9', '#f768a1', '#c51b8a', '#7a0177'])
+    return function update(data) {
+        d3.select("#parallel").select("svg").select("g").selectAll("*").remove()
         // Extract the list of dimensions we want to keep in the plot. Here I keep all except the column called Species
         dimensions = d3.keys(data[0]).filter(function (d) {
-            return d != "Score" && d != "Country"
+            return d != "score" && d != "country"
         })
 
         // For each dimension, I build a linear scale. I store all in a y object
-        var y = {}
+
         for (i in dimensions) {
             name = dimensions[i]
             y[name] = d3.scaleLinear()
@@ -36,10 +43,8 @@ function create_parallel() {
         }
 
         // Build the X scale -> it find the best position for each Y axis
-        x = d3.scalePoint()
-            .range([0, width])
-            .padding(1)
-            .domain(dimensions);
+
+        x.domain(dimensions);
 
         // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
         function path(d) {
@@ -55,12 +60,12 @@ function create_parallel() {
             .enter()
             .append("path")
             .attr("class", function (d) {
-                return "line " + d.Score
+                return "line " + d.score
             }) // 2 class for each line: 'line' and the group name
             .attr("d", path)
             .style("fill", "none")
             .style("stroke", function (d) {
-                return (color(d.Score))
+                return (d.filtered ? '#ddd' : color(d.score))
             })
             .style("opacity", 0.5)
 
@@ -85,5 +90,7 @@ function create_parallel() {
                 return d;
             })
             .style("fill", "black");
-    })
+    }
+
+
 }

@@ -1,5 +1,6 @@
 var color = d3.scaleThreshold()
-    .domain([0.24, 0.28, 0.32])
+    // .domain([0.24, 0.28, 0.32])
+    .domain([3, 7, 8])
     .range(['#fbb4b9', '#f768a1', '#c51b8a', '#7a0177'])
 
 
@@ -159,7 +160,7 @@ function choropleth(features) {
                 return d.country || d.properties.name
             })
             .style('fill', function (d) {
-                return d.filtered ? '#ddd' : color(d.corruption)
+                return d.filtered ? '#ddd' : color(d.score)
             })
     }
 }

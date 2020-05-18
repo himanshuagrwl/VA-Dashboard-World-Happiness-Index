@@ -1,4 +1,6 @@
-function createHistogram() {
+flag = true
+var index = -1
+function createHistogram(updateFromHist) {
 
     var margin = {top: 50, right: 60, bottom: 50, left: 60};
     var width = 500 - margin.left - margin.right;
@@ -19,7 +21,7 @@ function createHistogram() {
         .padding(0.1);
 
     graph.append("g")
-        .call(d3.axisLeft(y).ticks(10))
+        // .call(d3.axisLeft(y).ticks(10))
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 40)
@@ -49,28 +51,29 @@ function createHistogram() {
         .attr("transform", "translate(0," + height + ")");
     var yAxisGroup = graph.append('g');
 
-    xAxisGroup.selectAll('text')
-        .attr('transform', 'rotate(-90)')
-        .attr('text-anchor', 'end')
-        .attr("dx", "-.8em")
-        .attr("dy", "-0.6em");
-    xAxisGroup.call(xAxis);
-    yAxisGroup.call(yAxis);
+
 
 
 
     return function update(data) {
-        console.log(data)
-        // xAxisGroup.call(xAxis);
-        // yAxisGroup.call(yAxis);
-
+        yAxisGroup.call(yAxis);
+        xAxisGroup.call(xAxis);
+        xAxisGroup.selectAll('text')
+            .attr('transform', 'rotate(-90)')
+            .attr('text-anchor', 'end')
+            .attr("dx", "-.8em")
+            .attr("dy", "-0.6em");
         let noBins = 10
-        var ftrFreq = Array.apply(null, Array(noBins + 1)).map(Number.prototype.valueOf, 0);
+        var ftrFreq = Array.apply(null, Array(noBins)).map(Number.prototype.valueOf, 0);
         var binValues = [];
         data_array = data.map(function(d){ return d.score});
-        var binWidth = (d3.max(data_array) - d3.min(data_array)) / (noBins);
+        var binWidth = (d3.max(data_array)+0.00000001 - d3.min(data_array)) / (noBins);
 
         data.map(function (d) {
+            // console.log(d)
+            if(d.country==="Finland") {
+                console.log(Math.floor((d.score - d3.min(data_array)) / binWidth));
+            }
             ftrFreq[Math.floor((d.score - d3.min(data_array)) / binWidth)]++;
         });
 
@@ -100,11 +103,18 @@ function createHistogram() {
                 return height - y(ftrFreq[i]);
             })
             .on("click", function (d, i) {
-                d3.select(this)
-                    .attr("fill", "blue");
+                if(flag && index==-1) {
+                    index = i
+                    d3.select(this).attr("fill", "blue");
+                    // console.log(ftrFreq[i])
+
+                    updateFromHist(data_array, i, binWidth)
+                    flag = false
+                }
             })
 
             .on("dblclick", function (d, i) {
+                if(i==index){flag = true; index = -1}
                 d3.select(this)
                     .attr("fill", "aquamarine");
             });

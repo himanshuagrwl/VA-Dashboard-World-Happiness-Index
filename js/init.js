@@ -27,10 +27,10 @@
         var features = results[1].features
 
         var components = [
-            // choropleth(features),
-            // scatterplot(onBrush),
-            // create_parallel(),
-            createHistogram(data)
+            choropleth(features),
+            scatterplot(onBrush),
+            create_parallel(),
+            createHistogram(updateFromHist)
         ]
 
         function update() {
@@ -48,6 +48,16 @@
             })
             update()
         }
-
+        function updateFromHist(data_array,i, binWidth){
+            data.forEach(function (d) {
+                // if(Math.floor((d.score - d3.min(data_array)) / binWidth) === i)
+                if(Math.floor((d.score - d3.min(data_array)) / binWidth) === i)
+                {
+                    d.filtered=false
+                }
+                d.filtered = Math.floor((d.score - d3.min(data_array)) / binWidth) === i?false:true
+            })
+            update()
+        }
         update()
     }
