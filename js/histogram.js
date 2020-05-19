@@ -25,24 +25,24 @@ function createHistogram(updateFromHist) {
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 40)
-        .attr("x", -200)
+        .attr("x", -150)
         .attr("dy", "-5.1em")
         .attr("text-anchor", "middle")
         .attr("fill", "black")
         .attr("font-family", "sans-serif")
-        .attr("font-size", "20px")
+        .attr("font-size", "15px")
         .text("Frequency Count")
 
     graph.append("g")
         .append("text")
-        .attr("y", height * 2)
+        .attr("y", height+margin.top+margin.bottom+20)
         .attr("x", width / 2)
         .attr("dy", "-5.1em")
         .attr("text-anchor", "middle")
         .attr("fill", "black")
         .attr("font-family", "sans-serif")
-        .attr("font-size", "20px")
-        .text("himanshu")
+        .attr("font-size", "15px")
+        .text("Happiness Score Ranges")
 
     var xAxis = d3.axisBottom(x);
     var yAxis = d3.axisLeft(y)
@@ -56,7 +56,7 @@ function createHistogram(updateFromHist) {
         yAxisGroup.call(yAxis);
         xAxisGroup.call(xAxis);
         xAxisGroup.selectAll('text')
-            .attr('transform', 'rotate(-90)')
+            .attr('transform', 'rotate(-45)')
             .attr('text-anchor', 'end')
             .attr("dx", "-.8em")
             .attr("dy", "-0.6em");

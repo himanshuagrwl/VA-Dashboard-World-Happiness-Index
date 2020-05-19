@@ -3,6 +3,10 @@ var data_2018 = {}
 var data_2017 = {}
 var data_2016 = {}
 var data_2015 = {}
+var data_all = {}
+var years = ["2015", "2016", "2017", "2018", "2019"]
+
+countries = []
 
 d3.queue()
     .defer(d3.csv, 'dataset/2019.csv', function (d) {
@@ -59,19 +63,30 @@ function himanshu(error, results) {
     data1.forEach(function (d) {
         data_2015[d.country] = d.score
     })
+
+    data_all["2019"] = data_2019
+    data_all["2018"] = data_2018
+    data_all["2017"] = data_2017
+    data_all["2016"] = data_2016
+    data_all["2015"] = data_2015
 }
 
 function generate_time_series(country) {
-    var margin = {top: 50, right: 60, bottom: 50, left: 60},
-        width = 480 - margin.left - margin.right,
+    countries.push(country);
+    let cc =["#084594","#084594","#084594","#084594","#084594","#084594","#084594","#084594","#084594","#084594","#084594"];
+    var color = d3.scaleOrdinal(cc).domain(countries);
+    // var color = d3.scaleOrdinal(d3.schemeBlues[7]).domain(countries);
+    d3.select("#timeseries").selectAll("*").remove();
+    var margin = {top: 20, right: 20, bottom: 30, left: 50},
+        width = 500 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
     var x = d3.scaleBand()
-        .domain([2015, 2016, 2017, 2018, 2019])
+        .domain(years)
         .padding(width / 5)
         .range([0, width]);
 
-    var y = d3.scaleLinear().range([height, 0]);
+    var y = d3.scaleLinear().range([height, 0]).domain([0, 10]);
 // define the line
     var valueline = d3.line()
         .x(function (d) {
@@ -84,7 +99,7 @@ function generate_time_series(country) {
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
-    d3.select("#timeseries").selectAll("*").remove();
+
     var svg = d3.select("#timeseries").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -92,68 +107,95 @@ function generate_time_series(country) {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-// Get the data
-    country_time_data = []
-
-    var country_map = {}
-    country_map["date"] = 2019;
-    country_map["score"] = data_2019[country]
-
-    var country_map2 = {}
-    country_map2["date"] = 2018;
-    country_map2["score"] = data_2018[country]
-
-    var country_map3 = {}
-    country_map3["date"] = 2017;
-    country_map3["score"] = data_2017[country]
-
-    var country_map4 = {}
-    country_map4["date"] = 2016;
-    country_map4["score"] = data_2016[country]
-
-    var country_map5 = {}
-    country_map5["date"] = 2015;
-    country_map5["score"] = data_2015[country]
-
-    country_time_data.push(country_map)
-    country_time_data.push(country_map2)
-    country_time_data.push(country_map3)
-    country_time_data.push(country_map4)
-    country_time_data.push(country_map5)
-
-    console.log(data_2019);
-
-    // Scale the range of the data
-    y.domain([0, d3.max(country_time_data, function (d) {
-        return d.score;
-    })]);
-
-    // Add the valueline path.
-    svg.append("path")
-        .data([country_time_data])
-        .attr("class", "linetime")
-        .attr("d", valueline);
-
-
     // Add the X Axis
-    svg.append("g")
+    xAxis = svg.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
 
-    // Add the Y Axis
-    svg.append("g")
-        .call(d3.axisLeft(y));
-    svg.selectAll("circle")
-        .data(country_time_data)
-        .enter().append("circle")
-        .attr("class", "circle")
+// Add the Y Axis
+    yAxis = svg.append("g");
+
+    let all_country_data = []
+//  countries = ["Greece","USA","Finland", "Brazil"];
+    for (j in countries) {
+
+        let country_time_data = [];
+        let mapped = {};
+        for (i in years) {
+            var country_map = {}
+            country_map["date"] = years[i];
+            country_map["score"] = data_all[years[i]][countries[j]];
+            country_time_data.push(country_map);
+        }
+        mapped["name"] = countries[j];
+        mapped["values"] = country_time_data;
+        all_country_data.push(mapped)
+
+    }
+    // console.log("HIm", all_country_data)
+    // // Add the valueline path.
+    // svg.append("path")
+    //     .data([country_time_data])
+    //     .attr("class", "linetime")
+    //     .attr("d", valueline);
+    //
+    // // console.log(country_time_data)
+    //
+    // svg.selectAll("circle")
+    //      .data(country_time_data)
+    //      .enter().append("circle")
+    //      .attr("class", "circle")
+    //      .attr("cx", function(d) {  return x(d.date); })
+    //      .attr("cy", function(d) { return y(d.score); })
+    //      .attr("r", 4);
+    // var cities = all_country_data.keys(dfunction(a){
+    //     console.log("hello",a);
+    //     return {
+    //
+    //         name: a
+    //     }
+    // })
+    var city = svg.selectAll(".city")
+        .data(all_country_data)
+        .enter().append("g")
+        .attr("class", "city");
+
+    city.append("path")
+        .attr("class", "linetime")
+        .attr("d", function (d) {
+            return valueline(d.values);
+        })
+        .style("stroke", function (d) {
+            return color(d.name);
+        });
+
+    city.append("text")
+        .datum(function (d) {
+            return {name: d.name, value: d.values[d.values.length - 1]};
+        })
+        .attr("transform", function (d) {
+            return "translate(" + x(d.value.date) + "," + y(d.value.score) + ")";
+        })
+        .attr("x", 3)
+        .attr("dy", ".35em")
+        .text(function (d) {
+            return d.name;
+        });
+    let count = 0;
+    city.selectAll("circle")
+        .data(function (d) {
+            return d.values
+        })
+        .enter()
+        .append("circle")
+        .attr("r", 3)
         .attr("cx", function (d) {
             return x(d.date);
         })
         .attr("cy", function (d) {
             return y(d.score);
         })
-        .attr("r", 4);
+        .style("fill", function(d,i,j) { console.log("Name: ",all_country_data[0].name); count = count+1; return color(all_country_data[Math.floor((count-1)/5)].name); });
 
-
+    xAxis.call(d3.axisBottom(x));
+    yAxis.call(d3.axisLeft(y));
 }

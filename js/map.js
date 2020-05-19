@@ -11,7 +11,7 @@ var color1 = d3.scaleThreshold()
 
 function scatterplot(onBrush) {
     // console.log("scatter",data)
-    var margin = {top: 10, right: 15, bottom: 40, left: 75}
+    var margin = {top: 10, right: 15, bottom: 40, left: 60}
     var width = 500 - margin.left - margin.right
     var height = 400 - margin.top - margin.bottom
 
@@ -55,13 +55,13 @@ function scatterplot(onBrush) {
         .attr('class', 'y axis')
 
     gx.append('text')
-        .attr('x', 2*width/3)
-        .attr('y', 40)
+        .attr('x', 2*width/3-30)
+        .attr('y', 35)
         .style('text-anchor', 'end')
         .style('fill', '#000')
         // .style('font-weight', 'bold')
         .attr("font-family", "sans-serif")
-        .attr("font-size", "20px")
+        .attr("font-size", "15px")
         .text('Social Index')
 
     gy.append('text')
@@ -73,7 +73,7 @@ function scatterplot(onBrush) {
         // .style('font-weight', 'bold')
         // .style("font-size",25)
         .attr("font-family", "sans-serif")
-        .attr("font-size", "20px")
+        .attr("font-size", "15px")
         .text('Freedom Index')
 
     svg.append('g')
@@ -187,11 +187,7 @@ var offsetL = document.getElementById('choropleth').offsetLeft+10;
         .call(xAxis)
         .select(".domain")
         .remove()
-    // g.call(d3.axisBottom(x)
-    //     .tickSize(7)
-    //     .tickValues(color1.domain()))
-    //     .select(".domain")
-    //     .remove()
+
     g.selectAll("rect")
         .data(color1.range().map(function(d) {
             d = color1.invertExtent(d);
