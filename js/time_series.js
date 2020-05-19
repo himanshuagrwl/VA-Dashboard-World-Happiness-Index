@@ -86,7 +86,7 @@ function generate_time_series(country,flag) {
 
     d3.select("#timeseries").selectAll("*").remove();
     var margin = {top: 20, right: 20, bottom: 50, left: 50},
-        width = 500 - margin.left - margin.right,
+        width = 480 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
     var x = d3.scaleBand()
