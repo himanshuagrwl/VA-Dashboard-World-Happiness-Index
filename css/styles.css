@@ -53,6 +53,9 @@ div.tooltip {
     opacity: 0.9;
     position: absolute;
 }
+.hidden {
+    display: none;
+}
 .background path {
     fill: none;
     stroke: #ddd;
