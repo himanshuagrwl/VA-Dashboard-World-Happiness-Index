@@ -1,5 +1,4 @@
 function create_parallel() {
-    console.log("hi")
 // set the dimensions and margins of the graph
     var margin = {top: 30, right: 10, bottom: 10, left: 0},
         width = 700 - margin.left - margin.right,
@@ -7,7 +6,6 @@ function create_parallel() {
 
 // append the svg object to the body of the page
 
-    console.log("hi")
     var svg = d3.select("#parallel")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -16,16 +14,16 @@ function create_parallel() {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    var color = d3.scaleThreshold()
-        .domain([3, 5, 7])
-        .range(['#fbb4b9', '#f768a1', '#c51b8a', '#7a0177'])
+//     var color = d3.scaleThreshold()
+//            .domain([3, 5, 7])
+//            .range(['#fbb4b9', '#f768a1', '#c51b8a', '#7a0177'])
     var y = {};
     x = d3.scalePoint()
-        .range([0, width])
-        .padding(1)
+            .range([0, width])
+            .padding(1)
 // Parse the Data
-    return function update(data) {
-        d3.select("#parallel").select("svg").select("g").selectAll("*").remove()
+    return function update(data){
+    d3.select("#parallel").select("svg").select("g").selectAll("*").remove()
         // Extract the list of dimensions we want to keep in the plot. Here I keep all except the column called Species
         dimensions = d3.keys(data[0]).filter(function (d) {
             return d != "score" && d != "country"
@@ -44,6 +42,10 @@ function create_parallel() {
 
         // Build the X scale -> it find the best position for each Y axis
 
+        idx = dimensions.indexOf("filtered")
+        if (idx > -1) {
+          dimensions.splice(idx, 1);
+        }
         x.domain(dimensions);
 
         // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
@@ -65,9 +67,13 @@ function create_parallel() {
             .attr("d", path)
             .style("fill", "none")
             .style("stroke", function (d) {
-                return (d.filtered ? '#ddd' : color(d.score))
+                return (d.filtered ? '#ddd' : '#2171b5')
             })
-            .style("opacity", 0.5)
+            .style("opacity", function (d) {
+                return (d.filtered ? 0 : 1)
+            })
+
+
 
         // Draw the axis:
         svg.selectAll("myAxis")

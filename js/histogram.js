@@ -108,9 +108,9 @@ function createHistogram(updateFromHist) {
             })
             .attr("fill", function (d, i) {
                 if (colorArray[i] == 5 && colorFlag == 1) {
-                    return 'red';
+                    return '#2171b5';
                 } else {
-                    return 'aquamarine'
+                    return '#c6dbef'
                 }
             })
 

@@ -1,6 +1,12 @@
 var color = d3.scaleThreshold()
-    .domain([0.24, 0.28, 0.32])
-    .range(['#fbb4b9', '#f768a1', '#c51b8a', '#7a0177'])
+    .domain([0,0.1,0.2,0.3,0.35,0.4,0.5,0.6,0.7,0.8])//,1.0,1.5,2,3,4,5,6,7,8])
+    .range(d3.schemeBlues[7])
+console.log(d3.schemeBlues[7])
+var color1 = d3.scaleThreshold()
+    // .domain([3.0,3.5,4.0,4.5,5.0,5.5,6.5,7.0,7.5,8])//,1.0,1.5,2,3,4,5,6,7,8])
+    .domain([1,2,3,4,5,6,7,8])//,1.0,1.5,2,3,4,5,6,7,8])
+    .range(d3.schemeBlues[8])
+
 
 
 function scatterplot(onBrush) {
@@ -16,10 +22,10 @@ function scatterplot(onBrush) {
 
     var xAxis = d3.axisBottom()
         .scale(x)
-        .tickFormat(d3.format('$.2s'))
+        .tickFormat(d3.format('.2'))
     var yAxis = d3.axisLeft()
         .scale(y)
-        .tickFormat(d3.format('.0%'))
+        .tickFormat(d3.format('.2'))
 
     var brush = d3.brush()
         .extent([[0, 0], [width, height]])
@@ -49,21 +55,26 @@ function scatterplot(onBrush) {
         .attr('class', 'y axis')
 
     gx.append('text')
-        .attr('x', width)
-        .attr('y', 35)
+        .attr('x', 2*width/3)
+        .attr('y', 40)
         .style('text-anchor', 'end')
         .style('fill', '#000')
-        .style('font-weight', 'bold')
-        .text('Median household GDP')
+        // .style('font-weight', 'bold')
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "20px")
+        .text('Social Index')
 
     gy.append('text')
         .attr('transform', 'rotate(-90)')
-        .attr('x', 0)
+        .attr('x', -100)
         .attr('y', -40)
         .style('text-anchor', 'end')
         .style('fill', '#000')
-        .style('font-weight', 'bold')
-        .text('corruption rate')
+        // .style('font-weight', 'bold')
+        // .style("font-size",25)
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "20px")
+        .text('Freedom Index')
 
     svg.append('g')
         .attr('class', 'brush')
@@ -71,12 +82,12 @@ function scatterplot(onBrush) {
 
     return function update(data) {
         x.domain(d3.extent(data, function (d) {
-            return d.GDP
+            return d.social
         })).nice()
         y.domain(d3.extent(data, function (d) {
-            return d.corruption
+            return d.freedom
         })).nice()
-        //console.log("hello1")
+
         gx.call(xAxis)
         gy.call(yAxis)
 
@@ -99,7 +110,7 @@ function scatterplot(onBrush) {
 
         var circle = svg.selectAll('circle')
             .data(data, function (d) {
-                return d.name
+                return d
             })
 
         circle.exit().remove()
@@ -108,16 +119,16 @@ function scatterplot(onBrush) {
             .style('stroke', '#fff')
             .merge(circle)
             .attr('cx', function (d) {
-                return x(d.GDP)
+                return x(d.social)
             })
             .attr('cy', function (d) {
-                return y(d.corruption)
+                return y(d.freedom)
             })
             .style('fill', function (d) {
-                return color(d.corruption)
+                return color(d.freedom)
             })
             .style('opacity', function (d) {
-                return d.filtered ? 0.5 : 1
+                return d.filtered ? 0.3 : 1
             })
             .style('stroke-width', function (d) {
                 return d.filtered ? 1 : 2
@@ -149,8 +160,53 @@ var offsetL = document.getElementById('choropleth').offsetLeft+10;
          .attr("class", "tooltip hidden");
 // Data and color scale
     var data = d3.map();
-    svg.append("g")
-        .selectAll("path")
+
+    var g = svg.append("g");
+    const width1 = 260;
+    const length = color1.range().length;
+
+    var x = d3.scaleLinear()
+        .domain([2, 10])
+        .range([0,200]);
+    g.append("text")
+        .attr("class", "caption")
+        .attr("x", x.range()[0]+20)
+        .attr("y", 290)
+        .attr("fill", "black")
+        .attr("text-anchor", "start")
+        // .attr("font-weight", "bold")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "15px")
+        .text("Happiness Score Index");
+    var xAxis = d3.axisBottom(x)
+        .tickSize(7)
+        .tickValues(color1.domain())
+    g.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(40,320)")
+        .call(xAxis)
+        .select(".domain")
+        .remove()
+    // g.call(d3.axisBottom(x)
+    //     .tickSize(7)
+    //     .tickValues(color1.domain()))
+    //     .select(".domain")
+    //     .remove()
+    g.selectAll("rect")
+        .data(color1.range().map(function(d) {
+            d = color1.invertExtent(d);
+            if (d[0] == null) d[0] = x.domain()[0];
+            if (d[1] == null) d[1] = x.domain()[1];
+            return d;
+        }))
+        .enter().append("rect")
+        .attr("height", 20)
+        .attr("x", function(d) { return x(d[0])+40; })
+        .attr("y",300)
+        .attr("width", function(d) { return x(d[1]) - x(d[0]); })
+        .attr("fill", function(d) { return color1(d[0]); });
+
+    g.selectAll("path")
         .data(features)
         .enter()
         .append("path")
@@ -159,19 +215,18 @@ var offsetL = document.getElementById('choropleth').offsetLeft+10;
             .projection(projection)
         ).style('fill', '#D3D3D3')
         .on("mouseover",function(d,i){
-                return tooltip.style("hidden", false).html(d.country);
-            })
-            .on("mousemove",function(d){
-                tooltip.classed("hidden", false)
-                       .style("top", (d3.event.pageY-100) + "px")
-                       .style("left", (d3.event.pageX + 10) + "px")
-                       .html(d.country);
-            }).on("mouseout",function(d,i){
-                tooltip.classed("hidden", true);
-            }).on('click',function(d,i){
-                generate_time_series(d.country);
-            })
-
+            return tooltip.style("hidden", false).html(d.country);
+        })
+        .on("mousemove",function(d){
+            tooltip.classed("hidden", false)
+                .style("top", (d3.event.pageY-100) + "px")
+                .style("left", (d3.event.pageX + 10) + "px")
+                .html(d.country);
+        }).on("mouseout",function(d,i){
+        tooltip.classed("hidden", true);
+    }).on('click',function(d,i){
+        generate_time_series(d.country);
+    })
 
 
     return function update(data) {
@@ -180,7 +235,7 @@ var offsetL = document.getElementById('choropleth').offsetLeft+10;
                 return d.country || d.properties.name
             })
             .style('fill', function (d) {
-                return d.filtered ? '#ddd' : color(d.corruption)
+                return d.filtered ? '#ddd' : color1(d.score)
             })
     }
 }

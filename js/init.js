@@ -42,7 +42,7 @@ function initialize(error, results) {
         var clear = x0 === x1 || y0 === y1
         data.forEach(function (d) {
             d.filtered = clear ? false
-                : d.GDP < x0 || d.GDP > x1 || d.corruption < y0 || d.corruption > y1
+                : d.social < x0 || d.social > x1 || d.freedom < y0 || d.freedom > y1
         })
         update()
     }

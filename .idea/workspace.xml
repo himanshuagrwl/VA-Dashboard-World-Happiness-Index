@@ -3,17 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="3ea5f4d3-1ab8-4c9e-b700-024f31dc6b0a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/containers.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/containers.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/2015.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/2015.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/2016.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/2016.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/2017.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/2017.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/2018.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/2018.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/price.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/histogram.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/histogram.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/init.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/init.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/parallel.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/parallel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/time_series.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/time_series.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1589771911785</updated>
-      <workItem from="1589771914136" duration="27658000" />
+      <workItem from="1589771914136" duration="34444000" />
     </task>
     <servers />
   </component>
@@ -75,9 +71,13 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="423" y="127" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1589809709418" />
-    <state x="639" y="307" width="837" height="550" key="find.popup" timestamp="1589845648690">
+    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1589851690726">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="639" y="307" width="837" height="550" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1589845648690" />
+    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1589851690726" />
+    <state x="639" y="355" width="837" height="550" key="find.popup" timestamp="1589859689661">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="639" y="355" width="837" height="550" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1589859689661" />
   </component>
 </project>
