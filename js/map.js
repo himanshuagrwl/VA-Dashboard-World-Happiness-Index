@@ -1,6 +1,5 @@
 var color = d3.scaleThreshold()
-    // .domain([0.24, 0.28, 0.32])
-    .domain([3, 7, 8])
+    .domain([0.24, 0.28, 0.32])
     .range(['#fbb4b9', '#f768a1', '#c51b8a', '#7a0177'])
 
 
@@ -77,7 +76,7 @@ function scatterplot(onBrush) {
         y.domain(d3.extent(data, function (d) {
             return d.corruption
         })).nice()
-        console.log("hello1")
+        //console.log("hello1")
         gx.call(xAxis)
         gy.call(yAxis)
 
@@ -126,7 +125,9 @@ function scatterplot(onBrush) {
     }
 }
 
+
 function choropleth(features) {
+var tooltip = d3.select("div.tooltip");
     var margin = {top: 10, right: 10, bottom: 10, left: 10}
     var width = 700 - margin.left - margin.right
     var height = 400 - margin.top - margin.bottom
@@ -141,7 +142,11 @@ function choropleth(features) {
         .scale(90)
         .center([0, 20])
         .translate([width / 2, (height / 2) + 10]);
-
+var offsetL = document.getElementById('choropleth').offsetLeft+10;
+    var offsetT = document.getElementById('choropleth').offsetTop+10;
+    var tooltip = d3.select("#choropleth")
+         .append("div")
+         .attr("class", "tooltip hidden");
 // Data and color scale
     var data = d3.map();
     svg.append("g")
@@ -152,7 +157,22 @@ function choropleth(features) {
         // draw each country
         .attr("d", d3.geoPath()
             .projection(projection)
-        ).style('fill', '#D3D3D3');
+        ).style('fill', '#D3D3D3')
+        .on("mouseover",function(d,i){
+                return tooltip.style("hidden", false).html(d.country);
+            })
+            .on("mousemove",function(d){
+                tooltip.classed("hidden", false)
+                       .style("top", (d3.event.pageY-100) + "px")
+                       .style("left", (d3.event.pageX + 10) + "px")
+                       .html(d.country);
+            }).on("mouseout",function(d,i){
+                tooltip.classed("hidden", true);
+            }).on('click',function(d,i){
+                generate_time_series(d.country);
+            })
+
+
 
     return function update(data) {
         svg.selectAll('path')
@@ -160,7 +180,7 @@ function choropleth(features) {
                 return d.country || d.properties.name
             })
             .style('fill', function (d) {
-                return d.filtered ? '#ddd' : color(d.score)
+                return d.filtered ? '#ddd' : color(d.corruption)
             })
     }
 }

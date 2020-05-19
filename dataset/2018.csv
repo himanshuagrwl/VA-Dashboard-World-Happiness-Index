@@ -1,4 +1,4 @@
-Overall rank,Country or region,Score,GDP per capita,Social support,Healthy life expectancy,Freedom to make life choices,Generosity,Perceptions of corruption
+Overall rank,Country,Score,GDP per capita,Social support,Healthy life expectancy,Freedom to make life choices,Generosity,Perceptions of corruption
 1,Finland,7.632,1.305,1.592,0.874,0.681,0.202,0.393
 2,Norway,7.594,1.456,1.582,0.861,0.686,0.286,0.340
 3,Denmark,7.555,1.351,1.590,0.868,0.683,0.284,0.408
@@ -16,7 +16,7 @@ Overall rank,Country or region,Score,GDP per capita,Social support,Healthy life 
 15,Germany,6.965,1.340,1.474,0.861,0.586,0.273,0.280
 16,Belgium,6.927,1.324,1.483,0.894,0.583,0.188,0.240
 17,Luxembourg,6.910,1.576,1.520,0.896,0.632,0.196,0.321
-18,United States,6.886,1.398,1.471,0.819,0.547,0.291,0.133
+18,USA,6.886,1.398,1.471,0.819,0.547,0.291,0.133
 19,Israel,6.814,1.301,1.559,0.883,0.533,0.354,0.272
 20,United Arab Emirates,6.774,2.096,0.776,0.670,0.284,0.186,N/A
 21,Czech Republic,6.711,1.233,1.489,0.854,0.543,0.064,0.034
