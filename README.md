@@ -5,6 +5,7 @@ This project is a Visualization Dashboard, which gives us the ability to perform
 ## Techniques used:
 1. HTML, CSS Bootstrap (used for building UI)
 2. D3.js (For Visualizations)
+3. Javascript
 
 ## How to run:
 1. Import the code folder as a project into a tool like JetBrains Webstorm.
